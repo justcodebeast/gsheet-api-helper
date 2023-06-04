@@ -92,7 +92,7 @@ class GoogleSheetHelper {
     }
   }
 
-  async append(sheetId, sheetName, range, values) {
+  async append(sheetId, sheetName, values) {
     try {
       const access_token = await this.getAccessToken();
       const { data } = await axios({
