@@ -1,6 +1,6 @@
 {
   "name": "gsheet-api-helper",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Google Spreadsheet API Helper is a Node.js package that provides a helper for simplifies the process of accessing, retrieving and updating data from Gsheet using the Gsheet API.",
   "main": "index.js",
   "scripts": {
