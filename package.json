@@ -16,10 +16,11 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "@types/jsonwebtoken": "^9.0.2",
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "jsonwebtoken": "^9.0.1"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2",
     "tsup": "^7.1.0",
     "typescript": "^5.1.6"
   }
