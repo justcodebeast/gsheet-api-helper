@@ -1,26 +1,26 @@
 import jwt from "jsonwebtoken";
 import axios from "axios";
 
-class GoogleSheetHelper {
-  #googleApisIss
-  #googleApisPrivateKey
-  #googleApisBaseUrl
+export class GoogleSheetHelper {
+  private googleApisIss: string;
+  private googleApisPrivateKey: string;
+  private googleApisBaseUrl: string;
 
-  constructor(googleApisIss, googleApisPrivateKey) {
-    this.#googleApisIss = googleApisIss
-    this.#googleApisPrivateKey = googleApisPrivateKey
-    this.#googleApisBaseUrl = "https://sheets.googleapis.com/v4"
+  constructor(googleApisIss: string, googleApisPrivateKey: string) {
+    this.googleApisIss = googleApisIss
+    this.googleApisPrivateKey = googleApisPrivateKey
+    this.googleApisBaseUrl = "https://sheets.googleapis.com/v4"
   }
 
   generateToken() {
     try {
       const token = jwt.sign(
         {
-          iss: this.#googleApisIss,
+          iss: this.googleApisIss,
           scope: "https://www.googleapis.com/auth/spreadsheets",
           aud: "https://oauth2.googleapis.com/token",
         },
-        this.#googleApisPrivateKey,
+        this.googleApisPrivateKey,
         {
           algorithm: "RS256",
           expiresIn: "1h",
@@ -49,11 +49,11 @@ class GoogleSheetHelper {
     }
   }
 
-  async get(sheetId, sheetName, range) {
+  async get(sheetId: string, sheetName: string, range: string) {
     try {
       const access_token = await this.getAccessToken();
       const { data } = await axios({
-        url: `${this.#googleApisBaseUrl}/spreadsheets/${sheetId}/values/${sheetName}!${range}`,
+        url: `${this.googleApisBaseUrl}/spreadsheets/${sheetId}/values/${sheetName}!${range}`,
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -65,13 +65,13 @@ class GoogleSheetHelper {
     }
   }
 
-  async batchUpdate(sheetId, sheetName, range, values) {
+  async batchUpdate(sheetId: string, sheetName: string, range: string, values: any) {
     try {
       const access_token = await this.getAccessToken();
 
       const { data } = await axios({
         method: "POST",
-        url: `${this.#googleApisBaseUrl}/spreadsheets/${sheetId}/values:batchUpdate`,
+        url: `${this.googleApisBaseUrl}/spreadsheets/${sheetId}/values:batchUpdate`,
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -92,12 +92,12 @@ class GoogleSheetHelper {
     }
   }
 
-  async append(sheetId, sheetName, values) {
+  async append(sheetId:string, sheetName: string, values: any) {
     try {
       const access_token = await this.getAccessToken();
       const { data } = await axios({
         method: "POST",
-        url: `${this.#googleApisBaseUrl}/spreadsheets/${sheetId}/values/${sheetName}:append?insertDataOption=INSERT_ROWS&valueInputOption=RAW`,
+        url: `${this.googleApisBaseUrl}/spreadsheets/${sheetId}/values/${sheetName}:append?insertDataOption=INSERT_ROWS&valueInputOption=RAW`,
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -114,5 +114,3 @@ class GoogleSheetHelper {
     }
   }
 }
-
-export default GoogleSheetHelper
